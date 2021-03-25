@@ -20,10 +20,56 @@ class PostSeeder extends Seeder
             for ($i = 0; $i < 10; $i++){
                 $newPost = new Post();
                 $newPost->title = $faker->sentence(4);
-                $newPost->slug = $faker->Str::slug('$newPost->title');
                 $newPost->content = $faker->text(500);
 
+                
+
+                //1)seleziono tutti gli utenti
+                $users= User::all();
+                //il risultato è una collection, devo convertirla in array
+                $users=$users->toArray;
+                //dopo gli dico di fare il count
+                $users=Count($users);
+
+                //queste righe possiamo farle con meno righe di codice:
+                $userCount = Count(User::all()->toArray);
+                $newPost->user_id = rand(1, $userCount);
+
+                $slug= Str::slug(newPost->title);
+                $slugIniziale = $slug;
+
+                $postPresente = Post::where('slug',$slug)->first();
+
+                $contatore=1;
+
+                //-ciclo per controllare se lo slug è presente e confrontarlo
+                //con quello che dobbiamo inserire:      
+                while($postPresente){
+                    $slug = $slugIniziale . '-' . $contatore;
+                    $postPresente = Post::where('slug',$slug)->first();
+                    $contatore++;
+
+                }
+
+                $newPost->slug = $slug;
+                //titolo: laravel magic
+                //slug laravel-magic
+
+                //vogliamo inserire un articolo con lo stesso titolo
+                //titolo: laravel magic
+                //$postPresente conterrà l'id oppure null
+                //slug: laravel-magic-1
+
+                //vogliamo inserire un articolo con lo stesso titolo
+                //titolo: laravel magic
+                //slug: laravel-magic-2
+        
+                
                 $newPost->save();
+                
+                
+                
+
         }
     }
 }

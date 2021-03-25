@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//2)imposto la rotta che richiama il metodo
-//index (lo capiamo dal file homecontroller.php PUBLICO)
+//2)imposto la rotta che richiama il metodo index 
+//(lo capiamo dal file homecontroller.php PUBBLICO)
 Route::get('/', 'HomeController@index')->name
 ('index');
-    
-
+//rotta per l'elenco di tutti i posts fatti con i seeders
+//(lo capiamo dal file Postcontroller.php 
+Route::get('/posts', 'PostController@index')->name
+('guest.posts.index'); 
+//rotta per i dettagli dei posts 
+//(lo capiamo dal file Postcontroller.php 
+Route::get('/posts/{slug}', 'PostController@show')->name
+('guest.posts.show'); 
 
 Auth::routes();
 
