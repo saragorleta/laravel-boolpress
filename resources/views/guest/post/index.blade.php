@@ -1,6 +1,6 @@
 @extends ('layouts.app')
 
-@content('title','elenco post')
+@section('title','elenco post')
 
 @section('content')
 <h2>Elenco post</h2>
@@ -12,7 +12,10 @@
   </div>  
   <div class="card-body">
     <p class="card-text">{{ $post->content}}</p>
+
+    //vado nella tabella post->tabella user-> e prendo la colonna name
     <p>{{$post->user->name}}</p>
+
     <a href="{{route('guest.posts.show', $post->slug)}}" 
     class="btn btn-primary">Dettagli</a>
   </div>

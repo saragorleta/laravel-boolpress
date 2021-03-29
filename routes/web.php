@@ -25,6 +25,12 @@ Route::get('/posts', 'PostController@index')->name
 //(lo capiamo dal file Postcontroller.php 
 Route::get('/posts/{slug}', 'PostController@show')->name
 ('guest.posts.show'); 
+Route::get('/contatti','HomeController@contatti')->name
+('guest.contatti');
+Route::post('/contatti','HomeController@contattiSent')->name
+('guest.contatti.sent');
+Route::post('/inviato','HomeController@contattiInviato')->name
+('guest.contatti.inviato');
 
 Auth::routes();
 
@@ -38,8 +44,9 @@ Auth::routes();
 Route::prefix('admin')
 ->namespace('Admin')
 ->middleware('auth')
-
 ->group(function () {
-Route::get('/', 'HomeController@index')
-->name('home');
+        //pagina di benvenuto della dashboard
+        Route::get('/', 'HomeController@index')->name('home');
+        //pagina della parte amministrativa
+        Route::resource('/post', 'PostController');
 });

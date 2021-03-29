@@ -5,6 +5,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
+use App\Lead;
 
 class HomeController extends Controller
 {
@@ -26,4 +28,30 @@ class HomeController extends Controller
         //la view che deve prendere è :guest.home
         return view('guest.home');
     }
+
+    public function contatti()
+    {
+        //la view che deve prendere è :guest.contatti
+        return view('guest.contatti');
+    }
+
+    public function contattiSent(Request $request)
+    {
+        $data = $request->all();
+
+        $newLead= new Lead();
+        $newLead->fill($data);
+        $newLead->save;
+
+        return redirect()->route('guest.contatti');
+        
+        
+    }
+    public function contattiInviato(Request $request)
+    {
+        return redirect()->route('guest.contatti.inviato');
+        
+        
+    }
+
 }

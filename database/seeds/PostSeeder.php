@@ -6,6 +6,7 @@ use Faker\Generator as Faker;
 //documentazione
 use Illuminate\Support\Str;
 use App\Post;
+use App\User;
 
 
 class PostSeeder extends Seeder
@@ -18,8 +19,8 @@ class PostSeeder extends Seeder
     public function run(Faker $faker)
         {
             for ($i = 0; $i < 10; $i++){
-                $newPost = new Post();
-                $newPost->title = $faker->sentence(4);
+                $newPost = new Post('nuovo post');
+                //$newPost->title = $faker->sentence(4);
                 $newPost->content = $faker->text(500);
 
                 
@@ -27,15 +28,15 @@ class PostSeeder extends Seeder
                 //1)seleziono tutti gli utenti
                 $users= User::all();
                 //il risultato è una collection, devo convertirla in array
-                $users=$users->toArray;
+                $users=$users->toArray();
                 //dopo gli dico di fare il count
                 $users=Count($users);
 
                 //queste righe possiamo farle con meno righe di codice:
-                $userCount = Count(User::all()->toArray);
-                $newPost->user_id = rand(1, $userCount);
+                //$userCount = Count(User::all()->toArray());
+                $newPost->user_id = rand(1, $users);
 
-                $slug= Str::slug(newPost->title);
+                $slug= Str::slug($newPost->title);
                 $slugIniziale = $slug;
 
                 $postPresente = Post::where('slug',$slug)->first();
