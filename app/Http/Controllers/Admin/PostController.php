@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Tag;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -53,18 +54,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
         $idUser = Auth::id();
 
         $newPost = new Post();
         // $newPost->user_id corrisponde alla colonna
         $newPost->user_id = $idUser;
         $newPost->slug = Str::slug($data['title']);
-        //questi dati fanno riferimento al file create.blade.php(cartella post)
-        //$newPost->fill($data)
-        // oppure questa riga la possiamo scrivere anche cosi:
+        //questi dati fanno riferimento al file create.blade.php(cartella post).
+        //$newPost->fill($data) si potrebbe scrivere anche cosi:
         $newPost->title = $data['title'];
-        $newPost->user_id = $data['content'];
+        $newPost->content = $data['content'];
+        $cover_path = Storage::put('post_covers',$data['image']);
+        $data['cover']=$cover_path;
+
+        $newPost->cover = $data['cover'];
 
         $newPost->save();
 
@@ -92,7 +95,7 @@ class PostController extends Controller
         $data = [
             'post' => $post
         ];
-        return view(admin.post.show, $data);
+        return view('admin.post.show', $data);
     }
 
     /**
@@ -102,12 +105,15 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
+
+    {   
+        $tags = Tag::all();
+
         $data = [
         'post' => $post,
         'tags'=> $tags
         ];
-        return view(admin.post.edit, $data);
+        return view('admin.post.edit', $data);
     }
 
     /**
@@ -120,7 +126,24 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->all();
+
+        //se c'è il controllo del titolo unique posso 
+        // anche evitare il controllo dello slug
+
+        //controllo per non far ricalcolare lo slug al database
+        if($data['title'] !=$post->title){
+            $slug = Str::slug($data['title']);
+            $data['slug'] = $slug;
+        }
+
+        //controllo dell'immagine
+        if(array_key_exists('image', $data)){
+            $cover_path = Storage::put('post_covers',$data['image']);
+            $data['cover']=$cover_path;
+        }
+
         $post ->update($data);
+        //controllo del tag
         if(array_key_exists('tags', $data)){
             $post->tags()->sync($data['tags']);
         }

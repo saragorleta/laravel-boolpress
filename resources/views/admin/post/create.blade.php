@@ -15,14 +15,19 @@ l'errore sull'inserimentodi qualche campo -->
 @endif
 
 <div class= "container">
-<form method="post" action ="{{ route ('post.store')}}">
-@method ('POST')
+<form method="post" action ="{{ route ('post.store')}}"method="post"enctype="multipart/form-data">
 @csrf
-
+@method ('POST')
   <div class="form-group">
     <label for="title">Titolo</label>
     <input type="text" class="form-control" name ="title">
   </div>
+  
+  <div class="form-group">
+    <label for="immagine">Carica l'immagine</label>
+    <input type="file" class="form-control-file" id="immagine" name="image">
+  </div>
+
   <div class="form-group">
     <label for="body">Body</label>
     <textarea class="form-control"name="content" id="body" rows="3"></textarea>
