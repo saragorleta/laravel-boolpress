@@ -12,20 +12,8 @@ use App\Lead;
 
 class HomeController extends Controller
 {
-   //questa funzione la tolgo e riporto solo $this->middleware('auth');
-   //nella route del file web.php
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    
+     public function index()
     {
         //la view che deve prendere è :guest.home
         return view('guest.home');
@@ -33,14 +21,14 @@ class HomeController extends Controller
 
     public function contatti()
     {
-        //la view che deve prendere è :guest.contatti
+        //la view che deve prendere è: guest.contatti
         return view('guest.contatti');
     }
 
     public function contattiSent(Request $request)
     {
         $data = $request->all();
-
+      
         $newLead= new Lead();
         $newLead->fill($data);
         $newLead->save;
@@ -49,11 +37,11 @@ class HomeController extends Controller
         return redirect()->route('guest.contatti.inviato')
         ->with('status','messaggio inviato');
         
-        
+        // riga 37 'guest.contatti.inviato'??
     }
     public function contattiInviato(Request $request)
     {
-        return redirect()->route('guest.inviato');
+        return view('guest.inviato');
         
         
     }

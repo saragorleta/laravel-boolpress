@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section
+@section('content')
 
 <div class="container">
 @if (session('status'))
  <h2>Messaggio inviato correttamente</h2>
-
+@endif
 </div>
 @endsection

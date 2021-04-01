@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Post;
-use App\Tag;
+use App\Post; //Post fa riferimento al model Post.php
+use App\Tag; //Tag fa riferimento al model Tag.php
 
 class PostController extends Controller
 {
@@ -25,15 +25,11 @@ class PostController extends Controller
             'posts'=> $posts
         ];
 
-        return view('admin.post.index', $data);
-
+        return view('admin.post.index', $data); //cartella.cartella.nomeFile
+       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {   
         $tags=Tag::all();
@@ -42,15 +38,10 @@ class PostController extends Controller
             'tags'=> $tags
         ];
 
-        return view('admin.post.create');
+        return view('admin.post.create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $data = $request->all();
@@ -84,12 +75,6 @@ class PostController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Post $post)
     {
         $data = [
@@ -98,12 +83,7 @@ class PostController extends Controller
         return view('admin.post.show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit(Post $post)
 
     {   
@@ -116,13 +96,7 @@ class PostController extends Controller
         return view('admin.post.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, Post $post)
     {
         $data = $request->all();
@@ -135,7 +109,6 @@ class PostController extends Controller
             $slug = Str::slug($data['title']);
             $data['slug'] = $slug;
         }
-
         //controllo dell'immagine
         if(array_key_exists('image', $data)){
             $cover_path = Storage::put('post_covers',$data['image']);
@@ -148,21 +121,17 @@ class PostController extends Controller
             $post->tags()->sync($data['tags']);
         }
 
-        return redirect()->route('post.show', $post );
+        return view('admin.post.index', $data);
+        //return redirect()->route('post.show', $post );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Post $post)
     {
         $post->tags()->sync([]);
         $post->delete();
 
-        return redirect()->route('post.destroy');
+        return redirect()->route('post.index');
     }
 }
 

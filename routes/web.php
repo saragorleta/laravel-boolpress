@@ -29,9 +29,10 @@ Route::get('/contatti','HomeController@contatti')->name
 ('guest.contatti');
 Route::post('/contatti','HomeController@contattiSent')->name
 ('guest.contatti.sent');
-Route::post('/inviato','HomeController@contattiInviato')->name
+// 'guest.contatti.sent' 
+Route::get('/inviato','HomeController@contattiInviato')->name
 ('guest.contatti.inviato');
-
+// 'guest.contatti.inviato'è un nome inventato che poi utilizzo nella view di home controller 
 Auth::routes();
 
 //1)$this->middleware('auth'); è stata presa 
@@ -47,6 +48,10 @@ Route::prefix('admin')
 ->group(function () {
         //pagina di benvenuto della dashboard
         Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/profile', 'HomeController@profile')->name('profile');
+        Route::post('/genera-token','HomeController@generaToken')->name
+('genera-token');
+
         //pagina della parte amministrativa
         Route::resource('/post', 'PostController');
 });

@@ -24,7 +24,7 @@ class PostController extends Controller
         $post = Post::where('slug',$slug)->first();
         
         $data = [
-            'posts'=> $posts
+            'posts'=> $post
         ];
 
         return view('guest.post.show', $data);

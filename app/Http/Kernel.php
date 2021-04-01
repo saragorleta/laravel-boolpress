@@ -62,5 +62,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        //Abbiamo preso il nome del middleware(api.php) 'token', invece ApiToken è il nome della classe 
+        'token' => \App\Http\Middleware\ApiToken::class,
     ];
 }

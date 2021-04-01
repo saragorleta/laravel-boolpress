@@ -5,11 +5,10 @@
 
 <div class="container">
 
-<form action="{{route('guest.contatti.sent')}} " method="post">
+<form action="{{route('guest.contatti.sent')}} " method="POST">
 @csrf
 @method('POST')
 
-<form>
   <div class="form-group">
     <label for="nomeUtente">Nome</label>
     <input type="text" class="form-control" id="nomeUtente" 

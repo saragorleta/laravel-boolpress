@@ -24,7 +24,7 @@
   </thead>
   <tbody>
 
-   @foreach($posts as $post)
+    @foreach($posts as $post) <!--$posts è quello che andiamo a prendere dal postcontroller nel $data "$posts" -->
     <tr>
       <th scope="row">{{$post->id}}</th>
       <td>{{$post->title}}</td>
